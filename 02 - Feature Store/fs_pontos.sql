@@ -1,10 +1,20 @@
 WITH tb_transacoes AS (
     SELECT  *
     FROM    workspace.tmw_loyalty.transacoes
-    WHERE   DtCriacao < '2026-06-01'
-            AND DtCriacao >= '2026-06-01' - interval 28 days
-    --WHERE DtCriacao < '{date}'
-    --AND DtCriacao >= '{date}' - interval 28 days
+    WHERE   DATE(DtCriacao) < '2026-06-01'
+            AND DATE(DtCriacao) >= '2026-06-01' - INTERVAL 28 DAYS
+    --WHERE DATE(DtCriacao) < '{date}'
+    --AND DATE(DtCriacao) >= '{date}' - interval 28 days
+),
+
+-- Período de 28 dias anterior
+tb_transacoes_ant AS (
+    SELECT  *
+    FROM    workspace.tmw_loyalty.transacoes
+    WHERE   DATE(DtCriacao) < '2026-06-01' - INTERVAL 28 DAYS
+            AND DATE(DtCriacao) >= '2026-06-01' - INTERVAL 56 DAYS
+    --WHERE DATE(DtCriacao) < '{date}' - interval 28 days
+    --AND DATE(DtCriacao) >= '{date}' - interval 56 days
 ),
 
 tb_cliente_agg AS (
@@ -16,6 +26,16 @@ tb_cliente_agg AS (
             MIN(DATE_DIFF('2026-06-01', DtCriacao)) AS recencia,
             COUNT(idTransacao) AS QtdeTransacoes
     FROM    tb_transacoes
+    GROUP BY ALL
+),
+
+tb_cliente_agg_ant AS (
+    SELECT  IdCliente,
+            COUNT(DISTINCT DATE(DtCriacao)) AS qtFrequencia,
+            SUM(QtdePontos) AS qtPontos,
+            SUM(CASE WHEN QtdePontos > 0 THEN QtdePontos ELSE 0 END) AS qtPontosPositivos,
+            COUNT(idTransacao) AS QtdeTransacoes
+    FROM    tb_transacoes_ant
     GROUP BY ALL
 ),
 
@@ -82,7 +102,11 @@ tb_vida AS (
 
 tb_join AS (
     SELECT  t1.*,
-            (qtPontosPositivos - (SELECT AVG(qtPontosPositivos) FROM tb_cliente_agg)) 
+            t1.qtFrequencia / t1_ant.qtFrequencia AS txFrequencia28d,
+            t1.qtpontos / t1_ant.qtpontos AS txPontos28d,
+            t1.qtpontospositivos / t1_ant.qtpontospositivos AS txPontosPositivos28d,
+            t1.qtdetransacoes / t1_ant.qtdetransacoes AS txTransacoes28d,
+            (t1.qtPontosPositivos - (SELECT AVG(qtPontosPositivos) FROM tb_cliente_agg)) 
                 / (SELECT stddev(qtPontosPositivos) FROM tb_cliente_agg) AS zScore,
             t2.pctTransacaoChatMessage,
             t2.pctTransacaoListapresenca,
@@ -107,6 +131,8 @@ tb_join AS (
             t3.diasPrimeiraTransacao,
             t3.freqVida
     FROM    tb_cliente_agg AS t1
+            LEFT JOIN tb_cliente_agg_ant AS t1_ant
+                ON t1_ant.idcliente = t1.idcliente
             LEFT JOIN tb_cliente_produto AS t2
                 ON t1.idcliente = t2.idcliente
             LEFT JOIN tb_vida AS t3
