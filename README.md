@@ -31,7 +31,6 @@ A TMW é uma plataforma de cursos com um sistema de **pontos** (programa de fide
 | Item | Definição |
 |---|---|
 | **Churn (target)** | Aluno **sem nenhuma pontuação nos últimos 28 dias** |
-| **Tipo de problema** | Classificação binária |
 | **Saída esperada** | Probabilidade de churn, usada para **ordenar** os alunos (priorização de ações) |
 | **Fontes de dados** | Tabelas de **Pontos** (transações) e **Cursos** (progresso do aluno) |
 
