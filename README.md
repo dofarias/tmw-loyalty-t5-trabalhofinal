@@ -54,7 +54,9 @@ Cursos ──┘          (43 variáveis)                            └─ OOT 
 
 | Caminho | O que é |
 |---|---|
-| `01 - Discovery/` | Exploração inicial dos dados e definição do problema (análises exploratórias, entendimento das tabelas e do target). *[PREENCHER: listar os arquivos da pasta]* |
+| `01 - Discovery/` | Exploração inicial dos dados e definição do problema (análises exploratórias, entendimento das tabelas e do target). 
+DicionarioDados.ods: informação sobre os atributos das tabelas utilizadas
+Metricas: consolidação e visualização das métricas de avaliação dos modelos e da importância das variáveis|
 | `02 - Feature Store/` | Código de construção das variáveis (ETL) das tabelas de Pontos e Cursos, versionadas por data de referência. *[PREENCHER: listar os arquivos/queries]* |
 | `train.ipynb` | Treinamento: montagem da ABT, split treino/teste/OOT, pipelines de pré-processamento, Grid Search, comparação dos 8 algoritmos e treino do modelo final. |
 | `train old.ipynb` | Versão anterior do treinamento, mantida como histórico. *[PREENCHER: o que mudou para a versão atual]* |
