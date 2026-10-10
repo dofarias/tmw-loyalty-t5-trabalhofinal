@@ -70,7 +70,7 @@ Cursos ──┘          (43 variáveis)                            └─ OOT 
 ## 4. Dados e engenharia de variáveis (ETL)
 
 No total são **43 variáveis**: 33 originadas de **Pontos** e 10 de **Cursos**.
-O detalhamento de cada variável pode ser consultado no 
+O detalhamento de cada variável pode ser consultado no [DicionarioDados.ods](https://github.com/dofarias/tmw-loyalty-t5-trabalhofinal/blob/main/03%20-%20Docs/DicionarioDados.ods)
 
 ### 4.1 Pontos (33 variáveis)
 
@@ -98,7 +98,7 @@ O detalhamento de cada variável pode ser consultado no
 
 - **Variáveis relativas (shares e percentuais)** em vez de apenas contagens absolutas, para comparar alunos com volumes de uso muito diferentes.
 - **Janela de 28 dias** nas variáveis recentes, alinhada à definição do target.
-- **Tendência e z-score** para capturar *mudança de comportamento*, e não só o nível de atividade.
+- **Tendências** para capturar *mudança de comportamento*, e não só o nível de atividade.
 - **Tratamento de nulos** feito no pipeline de modelagem (seção 6), já que ausência de histórico tem significados diferentes conforme a variável.
 
 ## 5. Feature Store e ABT
@@ -129,7 +129,7 @@ Regressão Logística (duas variações), Random Forest, Hist Gradient Boosting,
 | Seleção *forward* | | ✔ | | | | | | |
 | Min-Max Scale | ✔ | ✔ | | | | | | ✔ |
 
-- **Duas estratégias de imputação:** `0` para variáveis em que ausência significa "nenhuma atividade" (contagens, shares) e **valor máximo** para variáveis de tempo/recência, em que ausência significa "muito tempo sem atividade". *[CONFIRMAR: quais colunas recebem cada estratégia]*
+- **Duas estratégias de imputação:** `0` para variáveis em que ausência significa "nenhuma atividade" (contagens, shares) e **valor máximo** para variáveis de tempo/recência, em que ausência significa "muito tempo sem atividade".
 - **Min-Max Scale** apenas onde o algoritmo é sensível à escala (regressão logística e rede neural); modelos de árvore dispensam.
 - **Seleção de variáveis** apenas nas regressões logísticas, que sofrem mais com muitas variáveis correlacionadas. A *RL 2* adiciona seleção *forward* para testar um modelo mais enxuto.
 
@@ -195,8 +195,6 @@ Threshold de classificação = **0,5**. Melhor valor de cada métrica em **negri
 - `max_depth = 5` e `max_samples = 0,5` atuam como regularização, mantendo o modelo estável.
 - Não exige escala nem seleção de variáveis, o que simplifica o pipeline de produção.
 
-*[Ajuste este trecho com a justificativa que você apresentou, se for diferente.]*
-
 ## 9. Importância das variáveis
 
 | Variável | Importância |
@@ -223,15 +221,20 @@ Threshold de classificação = **0,5**. Melhor valor de cada métrica em **negri
 
 O `predict.ipynb` carrega o modelo treinado, aplica-o à base de **01/07/2026** e gera a lista de alunos ordenada por **probabilidade de churn** (do maior para o menor risco).
 
-Formato da saída:
-
 | Ordem | Id Cliente | Prob. Churn |
 |:-:|---|:-:|
-| 1 | `<uuid do aluno>` | 0,99 |
-| 2 | `<uuid do aluno>` | 0,99 |
-| … | … | … |
+| 1 | `5ed09fff-c0eb-48db-b6e3-20ef238e8b5c` | 0,9926 |
+| 2 | `9154669b-3725-411a-bffd-a833bbd60dc1` | 0,9912 |
+| 3 | `752d53df-332a-4bcc-a673-3258583aa133` | 0,9876 |
+| 4 | `5ff083a7-e818-4367-bda5-a9cee8dec654` | 0,9868 |
+| 5 | `820c0e06-c405-4979-8975-ecfa17abb0f9` | 0,9851 |
+| 6 | `7107771a-0558-4aaa-a66e-570205a7f367` | 0,9826 |
+| 7 | `65662aff-44d6-4f06-b9d9-07445c6e5943` | 0,9823 |
+| 8 | `163022e8-12b8-486f-8604-57d8fa0ed7e1` | 0,9822 |
+| 9 | `030496ce-9cb6-42a9-aa5a-5389dd4a2500` | 0,9791 |
+| 10 | `8c17e0b6-9dcc-4574-81d0-ec1641f1b735` | 0,9786 |
 
-No exemplo apresentado, os 50 alunos de maior risco têm probabilidades entre ~0,79 e ~0,99.
+No exemplo apresentado, os 50 alunos de maior risco têm probabilidades entre ~0,79 e ~0,99. A tabela apresenta os 10 alunos com maior probabilidade de Churn. A lista completa pode ser consulta em 
 
 **Uso sugerido:** acionar campanhas de retenção de cima para baixo na lista, até o limite da capacidade da ação.
 
@@ -252,8 +255,6 @@ No exemplo apresentado, os 50 alunos de maior risco têm probabilidades entre ~0
 - Avaliar **calibração das probabilidades** (por exemplo, `CalibratedClassifierCV`).
 
 ## 12. Como reproduzir
-
-*[PREENCHER conforme o seu ambiente]*
 
 1. Clonar o repositório:
    ```bash
