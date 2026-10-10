@@ -234,7 +234,7 @@ O `predict.ipynb` carrega o modelo treinado, aplica-o à base de **01/07/2026** 
 | 9 | `030496ce-9cb6-42a9-aa5a-5389dd4a2500` | 0,9791 |
 | 10 | `8c17e0b6-9dcc-4574-81d0-ec1641f1b735` | 0,9786 |
 
-No exemplo apresentado, os 50 alunos de maior risco têm probabilidades entre ~0,79 e ~0,99. A tabela apresenta os 10 alunos com maior probabilidade de Churn. A lista completa pode ser consulta em 
+No exemplo apresentado, os 50 alunos de maior risco têm probabilidades entre ~0,79 e ~0,99. A tabela apresenta os 10 alunos com maior probabilidade de Churn. A lista completa pode ser consulta em [TMW-Churn-Top50.xlsx](https://github.com/dofarias/tmw-loyalty-t5-trabalhofinal/blob/main/03%20-%20Docs/TMW-Churn-Top50.xlsx).
 
 **Uso sugerido:** acionar campanhas de retenção de cima para baixo na lista, até o limite da capacidade da ação.
 
