@@ -56,10 +56,13 @@ Cursos ──┘          (43 variáveis)                            └─ OOT 
 |---|---|
 | `01 - Discovery/` | Exploração inicial dos dados e definição do problema (análises exploratórias, entendimento das tabelas e do target). |
 | `01 - Discovery/DicionarioDados.ods` | Informação sobre os atributos das tabelas utilizadas. |
-| `01 - Discovery/Metricas` | : Consolidação e visualização das métricas de avaliação dos modelos e da importância das variáveis|
-| `02 - Feature Store/` | Código de construção das variáveis (ETL) das tabelas de Pontos e Cursos, versionadas por data de referência. *[PREENCHER: listar os arquivos/queries]* |
+| `01 - Discovery/Metricas` | Consolidação e visualização das métricas de avaliação dos modelos e da importância das variáveis|
+| `02 - Feature Store/` | Código de construção das variáveis (ETL) das tabelas de Pontos e Cursos, versionadas por data de referência. |
+| `02 - Feature Store/fs_cursos.sql` | Query para criação da Feature Store de Cursos. |
+| `02 - Feature Store/fs_pontos.sql` | Query para criação da Feature Store de Pontos. |
+| `02 - Feature Store/Features.ipynb` | Script Python para criação das Feature Stores de Cursos e Pontos a partir das queries desenvolvidas. |
+| `02 - Feature Store/ABT.ipynb` | Script Python para criação da ABT. |
 | `train.ipynb` | Treinamento: montagem da ABT, split treino/teste/OOT, pipelines de pré-processamento, Grid Search, comparação dos 8 algoritmos e treino do modelo final. |
-| `train old.ipynb` | Versão anterior do treinamento, mantida como histórico. *[PREENCHER: o que mudou para a versão atual]* |
 | `predict.ipynb` | Aplicação do modelo treinado sobre a base mais recente (referência 01/07/2026) para gerar a probabilidade de churn e o ranking de alunos. |
 | `comparacao_modelos_churn.csv` | Tabela com as métricas de todos os modelos candidatos (a mesma apresentada na seção 7). |
 | `README.md` | Este documento. |
@@ -67,6 +70,7 @@ Cursos ──┘          (43 variáveis)                            └─ OOT 
 ## 4. Dados e engenharia de variáveis (ETL)
 
 No total são **43 variáveis**: 33 originadas de **Pontos** e 10 de **Cursos**.
+O detalhamento de cada variável pode ser consultado no 
 
 ### 4.1 Pontos (33 variáveis)
 
